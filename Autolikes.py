@@ -140,6 +140,7 @@ def passwordhandle(update, context):
     reply_markup = InlineKeyboardMarkup(keyboard)
     newid = update.effective_user.username
     password = update.message.text
+    check = update.message.text
     (context.chat_data)[newid].append(password) #adds to local dict, specifc to chat...
     botid = str(update.effective_user.id)
     context.bot.send_message(chat_id=update.effective_chat.id, text="Processing give me a second...")
@@ -147,7 +148,7 @@ def passwordhandle(update, context):
         botid = lockdict[context.chat_data[newid][0]]
     else:
         botid = instabot.Bot(like_delay=4,max_likes_per_day=100000000,max_unlikes_per_day=10000000,max_follows_per_day=3500000,max_unfollows_per_day=350000000,max_comments_per_day=1000000,max_blocks_per_day=100000,max_unblocks_per_day=1000000,max_likes_to_like=1000000000,min_likes_to_like=-1,max_messages_per_day=3000000,filter_users=False,filter_private_users=False,filter_users_without_profile_photo=False,filter_previously_followed=False,filter_business_accounts=False,filter_verified_accounts=False,max_followers_to_follow=5000000,min_followers_to_follow=-1,max_following_to_follow=200000000,min_following_to_follow=-1,max_followers_to_following_ratio=150000000,max_following_to_followers_ratio=1500000000,min_media_count_to_follow=-1,max_following_to_block=20000000000,unlike_delay=10,follow_delay=30,unfollow_delay=30,comment_delay=60,block_delay=30,unblock_delay=30,message_delay=60,stop_words=("shop", "store", "free"),blacklist_hashtags=["#shop", "#store", "#free"],blocked_actions_protection=True,blocked_actions_sleep=False,blocked_actions_sleep_delay=300,verbosity=True,device=None,save_logfile=True,log_filename=None,log_follow_unfollow=False)
-    if botid.login(update, context, ask_for_code=True, username = (context.chat_data)[newid][0], password = (context.chat_data)[newid][1],is_threaded = True) == False:
+    if botid.login(update, context, check, ask_for_code=True, username = (context.chat_data)[newid][0], password = (context.chat_data)[newid][1],is_threaded = True) == False:
         context.bot.send_photo(chat_id=update.effective_chat.id, photo=open('lock.png', 'rb')) #change this for server
         context.bot.send_message(chat_id=update.effective_chat.id, text="Either your password is incorrect or our servers triggered a location lock. To fix this issue please go to the instagram app/website and click 'this was me'.",reply_markup=reply_markup)
         userlock = context.chat_data[newid][0]
